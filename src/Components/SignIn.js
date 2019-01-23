@@ -4,6 +4,7 @@ import Input from '@material-ui/core/Input';
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {signUp} from '../Actions/emailPasswordActions'
+import {getLogin} from '../Actions/logedInUserActions'
 import store from '../store.js'
 
 class SignIn extends React.Component
@@ -23,11 +24,14 @@ class SignIn extends React.Component
 
   handleSignIn(e){
     let loggedIn = false;
-  for (let i=0;i<this.props.savedEmails.length;i++){
-    if(this.state.email===this.props.savedEmails[i] && this.state.password===this.props.savedPasswords[i]){
+  for (let i=0;i<this.props.savedEmailsPasswords.email.length;i++){
+    if(this.state.email===this.props.savedEmailsPasswords.email[i] && this.state.password===this.props.savedEmailsPasswords.password[i]){
       loggedIn = true;
-
-    } else if (this.state.email!==this.props.savedEmails[i] || this.state.password!==this.props.savedPasswords[i])  {
+      this.props.getLogin(this.state.email);
+      this.props.history.push('/dashboard');
+      console.log(store.getState())
+      break;
+    } else if (this.state.email!==this.props.savedEmailsPasswords.email[i] || this.state.password!==this.props.savedEmailsPasswords.password[i])  {
       loggedIn = false;
     }
   }
@@ -36,7 +40,7 @@ class SignIn extends React.Component
     e.preventDefault();
   } else {
     window.alert('Wrong login/password')
-    this.setState({password: '  '})
+    this.setState({password: ''})
     e.preventDefault();
   }
 }
@@ -84,8 +88,8 @@ class SignIn extends React.Component
 
 const mapStateToProps = state =>{
   return {
-      savedEmails: state.email,
-      savedPasswords: state.password
+      savedEmailsPasswords: state.emailPasswordReducer,
+      logedInUser: state.logedInUserReducer
   }
 }
 
@@ -93,6 +97,9 @@ const mapDispatchToProps = dispatch =>{
   return {
     signUp: (emailPassword) =>{
       dispatch(signUp(emailPassword))
+    },
+    getLogin: (login) =>{
+      dispatch(getLogin(login))
     }
     }
   }

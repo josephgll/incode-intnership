@@ -4,6 +4,10 @@ import App from './Components/App';
 import  './reset.css';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import store from './store'  
+import { ConnectedRouter } from 'connected-react-router'
+import { Route, Switch } from 'react-router' // react-router v4
+import configureStore, { history } from './configureStore'
 
-ReactDOM.render(<Provider store={store}><BrowserRouter><App /></BrowserRouter></Provider>, document.getElementById('root'));
+const store = configureStore()
+
+ReactDOM.render(<Provider store={store}><ConnectedRouter history={history}><App /></ConnectedRouter></Provider>, document.getElementById('root'));
