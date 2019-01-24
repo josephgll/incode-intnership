@@ -4,7 +4,9 @@ import Input from '@material-ui/core/Input';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signUp} from '../Actions/emailPasswordActions';
-import store from '../store';
+import configureStore from '../configureStore'
+
+
 
 
 class SignUp extends React.Component
@@ -37,8 +39,8 @@ class SignUp extends React.Component
       const emailPassword = [this.state.email, this.state.password];
       this.setState({password: '', password2: ''})
       this.props.signUp(emailPassword);
-      console.log(emailPassword);
-      console.log(store.getState());
+      window.alert('Data submitted')
+
       e.preventDefault();
 
     }

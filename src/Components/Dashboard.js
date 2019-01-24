@@ -4,6 +4,7 @@ import {getLogout} from '../Actions/logedInUserActions'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom'
 import Calendar from 'react-calendar';
+import SignOutLogo from "./MiniComponents/SignOutLogo"
 
 
 
@@ -17,7 +18,7 @@ class Dashboard extends React.Component{
     return <Fragment>
     <div>
         <div style={{float: "left", margin: 50, fontSize: 25}}>Dashboard</div>
-        <div style={{float: "right", display: "flex", alignItems: "center"}}><p>{this.props.logedInUser.logedInUser}</p><AccountCircle style={{ margin: 50, fontSize: 35}} /></div>
+        <div style={{float: "right", display: "flex", alignItems: "center", padding:"40px"}}><p>{this.props.logedInUser.logedInUser}</p><SignOutLogo /></div>
     </div>
     <div style={{marginTop: 200,marginLeft:100}}>
       <input type="button" value="ADD NEW EXERCISE" style={{width: 150, height: 40, marginLeft: 0, marginBottom: 5, backgroundColor: "violet", color: "white", border: "none", borderRadius: "2%" }} />

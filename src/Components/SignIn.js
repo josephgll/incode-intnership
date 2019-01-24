@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {signUp} from '../Actions/emailPasswordActions'
 import {getLogin} from '../Actions/logedInUserActions'
-import store from '../store.js'
 
 class SignIn extends React.Component
 {
@@ -29,7 +28,7 @@ class SignIn extends React.Component
       loggedIn = true;
       this.props.getLogin(this.state.email);
       this.props.history.push('/dashboard');
-      console.log(store.getState())
+      
       break;
     } else if (this.state.email!==this.props.savedEmailsPasswords.email[i] || this.state.password!==this.props.savedEmailsPasswords.password[i])  {
       loggedIn = false;

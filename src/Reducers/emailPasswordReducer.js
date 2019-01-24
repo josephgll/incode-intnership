@@ -5,7 +5,7 @@ const emailPasswordReducer = (state={
   switch(action.type){
     case "SIGNUP":
     state ={
-      ...state.email,
+      ...state,
       email: [...state.email, action.payload[0]],
       password: [...state.password, action.payload[1]]
     }
