@@ -9,10 +9,25 @@ import Paper from '@material-ui/core/Paper';
 
 
 class NewWorkout extends React.Component{
+
+  state={
+    exCount: 0
+  }
+
+  addExercise(){
+    this.setState({exCount: this.state.exCount+1})
+  }
+
+
   render(){
+
+    let exArray=[];
+    for(let i=0; i<this.state.exCount; i++){
+      exArray.push(<Workout key={`workout${i}`} index={i} />)
+    }
     return <div style={{display: "grid", height: "100%", gridTemplateRows: "10% 80% 10%", alignItems: "center"}}>
         <div style={{display: "grid",width:"100%", gridTemplateColumns: "80% 10% 10%", alignItems: "center"   }}>
-          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout</div>
+          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout {this.props.workouts.date}</div>
           <div style={{}}>{this.props.logedInUser.logedInUser}</div>
           <div style={{justifySelf:"center" }}><SignOutLogo /></div>
         </div>
@@ -20,10 +35,10 @@ class NewWorkout extends React.Component{
           <Paper style={{background: "white", width: "70%", minHeight: "10em", maxHeight: "50em", display:"grid", gridTemplateRows: "20%, 70%, 10%", alignItems: "start" , overflowY: "scroll"}}>
               <div style={{height: "7em"}}>
                 <Paper style={{backgroundColor: "violet", width:"52%", position:"absolute", top: "80px", left: "380px", padding: "20px", fontSize: 20, color: "white"}}>New Workout</Paper>
-                <button style={{height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em", margin: "20px", marginTop: 60}}>ADD EXERCISE</button>
+                <button onClick={this.addExercise.bind(this)} style={{height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em", margin: "20px", marginTop: 60}}>ADD EXERCISE</button>
               </div>
               <div style={{maxHeight: "35em", overflowY: "scroll"}}>
-                
+                {exArray}
 
               </div>
 
@@ -64,7 +79,9 @@ class NewWorkout extends React.Component{
 
 const mapStateToProps = state =>{
   return {
-    logedInUser: state.logedInUserReducer
+    logedInUser: state.logedInUserReducer,
+    exercises: state.exercisesReducer,
+    workouts: state.workoutsReducer
   }
 }
 

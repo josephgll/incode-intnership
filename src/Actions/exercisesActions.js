@@ -25,3 +25,17 @@ export function moveDown(index){
     payload: index
   }
 }
+
+export function updateExName(exName){
+  return{
+    type: "CHANGENAME",
+    payload: exName
+  }
+}
+
+export function updateExMeasure(exMeasure){
+  return{
+    type: "CHANGEMEASURE",
+    payload: exMeasure
+  }
+}

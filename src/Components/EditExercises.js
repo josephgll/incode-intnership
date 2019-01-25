@@ -15,7 +15,7 @@ class EditExercises extends React.Component{
   render(){
     let exArray=[];
     for(let i=0; i<this.props.exercises.exercise.length; i++){
-      exArray.push(<Exercise key={i} index={i} name={this.props.exercises.exercise[i]} measurement={this.props.exercises.measurement[i]} />)
+      exArray.push(<Exercise key={`exercise${i}`} index={i} name={this.props.exercises.exercise[i]} measurement={this.props.exercises.measurement[i]} />)
     }
 
     return <div style={{display: "grid", height: "100%", gridTemplateRows: "10% 80% 10%", alignItems: "center"}}>

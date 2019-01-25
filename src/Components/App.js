@@ -2,7 +2,7 @@
 import Grid from '@material-ui/core/Grid';
 import SidebarLogedOut from './SidebarLogedOut'
 import SignIn from './SignIn'
-import {Route, Link, Switch} from 'react-router-dom'
+import {Route, Link, Switch, Redirect} from 'react-router-dom'
 import SignUp from "./SignUp"
 import {connect} from 'react-redux'
 import {signUp} from '../Actions/emailPasswordActions'
@@ -47,7 +47,15 @@ class App extends Component {
         <Route  path="/editexercises" component={EditExercises}/>
         <Route path="/editworkout" component={EditWorkout}/>
         <Route path="/newexercise" component={NewExercise}/>
-        <Route path="/newworkout" component={NewWorkout}/>
+
+        <Route  path="/newworkout" render={() => (
+          !this.props.workouts.date ? (
+            <Redirect to="/dashboard"/>
+          ) : (
+            <NewWorkout />
+          )
+        )}/>
+
 
       </Grid>
     </Grid>}
@@ -64,7 +72,8 @@ class App extends Component {
 const mapStateToProps = state =>{
   return {
       savedEmailsPasswords: state.emailPasswordReducer,
-      logedInUser: state.logedInUserReducer
+      logedInUser: state.logedInUserReducer,
+      workouts: state.workoutsReducer
   }
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+  import React from 'react'
 import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -8,33 +8,39 @@ import {connect} from 'react-redux'
 import {deleteEx} from '../../Actions/exercisesActions'
 import {moveUp} from '../../Actions/exercisesActions'
 import {moveDown} from '../../Actions/exercisesActions'
+import configureStore from '../../configureStore'
+import {updateExName} from '../../Actions/exercisesActions'
+import {updateExMeasure} from '../../Actions/exercisesActions'
+
+const store = configureStore()
 
 
 class Exercise extends React.Component {
 
-  state={
-    exName:''
-  }
-
-    componentDidMount(){
-      this.setState({exName: this.props.name})
-    }
 
   deleteEx(){
     this.props.deleteEx(this.props.index)
+
   }
 
   moveUp(){
     if (this.props.index > 0)
-    {this.props.moveUp(this.props.index)}
+    {this.props.moveUp(this.props.index)
+  }
   }
 
   moveDown(){
     this.props.moveDown(this.props.index)
   }
 
-  handleChange(e){
-    this.setState({exName: e.target.value})
+  handleButton(e){
+    let exName = e.target.value;
+    this.props.updateExName([this.props.index, exName ])
+  }
+
+  handleSelect(e){
+    let value = e.target.value;
+    this.props.updateExMeasure([this.props.index, value ])
   }
 
   render(){
@@ -44,13 +50,13 @@ class Exercise extends React.Component {
         <div style={{display: "grid", borderBottom: "1px solid lightgray", width: "90%", gridTemplateColumns: "33% 20% 47%", paddingBottom: "1em", paddingTop: "3em", alignItems: "center", gridColumnGap: "1em"}}>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
             <label htmlFor="exName" style={{color: "gray"}}>Exercise Name</label>
-            <Input   id="exName" value={this.state.exName} onChange={this.handleChange.bind(this)} />
+            <Input   id="exName" value={this.props.name} onChange={this.handleButton.bind(this)}   />
           </div>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
-            <label htmlFor="select" style={{color: "gray"}}>Measurement Type</label>
-            <select style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select" defaultValue={this.props.measurement}  required >
-              <option value="kilograms">Kilograms</option>
-              <option value="pounds">Pounds</option>
+            <label htmlFor="select" style={{color: "gray"}}>Measurement type</label>
+            <select style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select" value={this.props.measurement} onChange={this.handleSelect.bind(this)}  >
+              <option value="kilograms" >Kilograms</option>
+              <option value="pounds" >Pounds</option>
             </select>
         </div>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "60%", justifyItems:"center"}}>
@@ -86,6 +92,12 @@ const mapDispatchToProps = dispatch =>{
       },
       moveDown: (index) =>{
         dispatch(moveDown(index))
+      },
+      updateExName: (exName) =>{
+        dispatch(updateExName(exName))
+      },
+      updateExMeasure: (exMeasure) =>{
+        dispatch(updateExMeasure(exMeasure))
       }
   }
 }
