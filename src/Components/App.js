@@ -49,7 +49,7 @@ class App extends Component {
         <Route path="/newexercise" component={NewExercise}/>
 
         <Route  path="/newworkout" render={() => (
-          !this.props.workouts.date ? (
+          !this.props.workouts.currentDate ? (
             <Redirect to="/dashboard"/>
           ) : (
             <NewWorkout />

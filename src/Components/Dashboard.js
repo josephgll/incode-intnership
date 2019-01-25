@@ -19,7 +19,7 @@ const moment = require('moment');
 class Dashboard extends React.Component{
 
   calendar(date){
-    let data = moment(date).format('Do MMM YYYY')
+    let data = moment(date).format('MM-DD-YYYY')
     this.props.setWorkoutDate(data)
     this.props.history.push(`newworkout/${data}`)
   }

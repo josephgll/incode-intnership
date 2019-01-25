@@ -5,6 +5,8 @@ import {Link} from 'react-router-dom'
 import Workout from './MiniComponents/Workout'
 import SignOutLogo from "./MiniComponents/SignOutLogo"
 import Paper from '@material-ui/core/Paper';
+import {newWorkout} from '../Actions/workoutsActions'
+import {addToWorkout} from '../Actions/workoutsActions'
 
 
 
@@ -15,19 +17,38 @@ class NewWorkout extends React.Component{
   }
 
   addExercise(){
+    let currentDatee = this.props.workouts.currentDate;
+    let exName = this.props.exercises.exercise[this.state.exCount]
+    let exMeasure = this.props.exercises.measurement[this.state.exCount]
+
+    if(!this.props.workouts[currentDatee]){
+        this.props.newWorkout([currentDatee, exName, exMeasure])
+    } else{
+      this.props.addToWorkout([currentDatee, exName, exMeasure])
+    }
+
+
+    // this.props.newWorkout([currentDatee, exName, exMeasure])
+    // this.props.addToWorkout([currentDatee, '123123', 'dsfsdf'])
     this.setState({exCount: this.state.exCount+1})
+    console.log(this.props.workouts[currentDatee]);
   }
 
 
   render(){
-
+    let currentDatee = this.props.workouts.currentDate;
     let exArray=[];
-    for(let i=0; i<this.state.exCount; i++){
-      exArray.push(<Workout key={`workout${i}`} index={i} />)
-    }
+    let exCurrentArray = [];
+
+    if(this.props.workouts[currentDatee])
+    {for (let i=0; i<this.props.workouts[currentDatee].exName.length; i++){
+      exCurrentArray.push(<Workout key={`workout${i}`} index={i} mType={this.props.exercises.measurement[i]} />)
+    }}else {for(let i=0; i<this.state.exCount; i++){
+      exArray.push(<Workout key={`workout${i}`} index={i} mType={this.props.exercises.measurement[i]} />)
+    }}
     return <div style={{display: "grid", height: "100%", gridTemplateRows: "10% 80% 10%", alignItems: "center"}}>
         <div style={{display: "grid",width:"100%", gridTemplateColumns: "80% 10% 10%", alignItems: "center"   }}>
-          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout {this.props.workouts.date}</div>
+          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout {this.props.workouts.currentDate}</div>
           <div style={{}}>{this.props.logedInUser.logedInUser}</div>
           <div style={{justifySelf:"center" }}><SignOutLogo /></div>
         </div>
@@ -38,6 +59,7 @@ class NewWorkout extends React.Component{
                 <button onClick={this.addExercise.bind(this)} style={{height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em", margin: "20px", marginTop: 60}}>ADD EXERCISE</button>
               </div>
               <div style={{maxHeight: "35em", overflowY: "scroll"}}>
+                {exCurrentArray}
                 {exArray}
 
               </div>
@@ -86,10 +108,16 @@ const mapStateToProps = state =>{
 }
 
 const mapDispatchToProps = dispatch =>{
-  return {
-
+    return {
+      newWorkout: (exercise) =>{
+        dispatch(newWorkout(exercise))
+      },
+      addToWorkout: (exercise) =>{
+        dispatch(addToWorkout(exercise))
+      },
     }
   }
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewWorkout)

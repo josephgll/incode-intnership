@@ -9,17 +9,33 @@ import {connect} from 'react-redux'
 
 class Workout extends React.Component {
 
+  state= {
+    mType: ''
+  }
+
+
+  changeExName(){
+    let selector = document.getElementById('select')
+    let value = selector[selector.selectedIndex].value;
+    if (value === "kilograms"){
+      this.setState({mType: 'kg'})
+    } else{
+      this.setState({mType: 'p'})
+    }
+  }
+
   render(){
     let exNamesArray=[];
     for(let i=0; i<this.props.exercises.exercise.length; i++){
-      exNamesArray.push(<option value={this.props.exercises.exercise[i]}>{this.props.exercises.exercise[i]}</option>)
+      exNamesArray.push(<option key={i} value={this.props.exercises.measurement[i]}>{this.props.exercises.exercise[i]}</option>)
     }
+
 
     return   <div style={{display: "grid", justifyItems: "center"}}>
         <div style={{display: "grid", borderBottom: "1px solid lightgray", width: "90%", gridTemplateColumns: "15% 22.5% 22.5% 5% 35%", paddingBottom: "1em", paddingTop: "3em", alignItems: "center", gridColumnGap: "1em"}}>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
             <label htmlFor="select" style={{color: "gray"}}>Exercise Name</label>
-            <select style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select"   required >
+            <select onChange = {this.changeExName.bind(this)} style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select"   required >
               {exNamesArray}
             </select>
         </div>
@@ -32,7 +48,7 @@ class Workout extends React.Component {
             <Input style={{ }}  type="textfield" id="exName" required />
           </div>
           <div>
-            <h1 style={{fontSize: "150%"}}>{this.props.exercises.measurement[this.props.index]==="kilograms" ? <p>kg</p> : <p>p</p>}</h1>
+            <h1 style={{fontSize: "150%"}}>{this.state.mType}</h1>
           </div>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "90%", justifyContent:"space-between"}}>
           <Fab size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>

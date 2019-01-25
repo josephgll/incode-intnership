@@ -9,7 +9,7 @@ import {createEx} from '../Actions/exercisesActions'
 import {signUp} from '../Actions/emailPasswordActions'
 
 
-const store = configureStore()
+
 
 
 class NewExercise extends React.Component{
@@ -27,16 +27,14 @@ class NewExercise extends React.Component{
 
   handleExName(e){
     this.setState({exName: e.target.value})
-    console.log(this.state.exName)
   }
 
   handleExMeasure(){
     const selector = document.getElementById('select')
     let value = selector[selector.selectedIndex].value;
     this.setState({exMeasure: value})
-    console.log(this.state.exMeasure)
   }
-  
+
 
   render(){
 

@@ -20,7 +20,6 @@ class Exercise extends React.Component {
 
   deleteEx(){
     this.props.deleteEx(this.props.index)
-
   }
 
   moveUp(){
