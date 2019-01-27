@@ -4,13 +4,54 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom'
 import Workout from './MiniComponents/Workout'
 import SignOutLogo from "./MiniComponents/SignOutLogo"
-
 import Paper from '@material-ui/core/Paper';
+import {newWorkout} from '../Actions/workoutsActions'
+import {addToWorkout} from '../Actions/workoutsActions'
 
 
 
 class EditWorkout extends React.Component{
+
+
+
+  addExercise(e){
+    let currentDatee = this.props.workouts.currentDate;
+    let exName = this.props.exercises.exercise[0]
+    let exMeasure = this.props.exercises.measurement[0]
+    let exRepeats = ' '
+    let exMeasureQ = ' '
+    if(!this.props.workouts[currentDatee]){
+        e.preventDefault()
+        alert("Please create a workout first")
+    } else{
+      this.props.addToWorkout([currentDatee, exName, exMeasure, exRepeats, exMeasureQ])
+    }
+  }
+
+
+
+
   render(){
+    let currentDatee = this.props.workouts.currentDate;
+    let exCurrentArray = [];
+
+      if(this.props.workouts[currentDatee])
+      {for (let i=0; i<this.props.workouts[currentDatee].exName.length; i++){
+        let mType=""
+        switch(this.props.workouts[currentDatee].exMeasure[i]){
+          case "kilograms":
+          mType = "kg"
+          break;
+
+          case "pounds":
+          mType = "p"
+          break;
+
+          default:
+          break
+        }
+      exCurrentArray.push(<Workout exName={this.props.workouts[currentDatee].exName[i]} exMeasure={mType} key={`workout${i}`} index={i} date={currentDatee} />)
+    }}
     return <div style={{display: "grid", height: "100%", gridTemplateRows: "10% 80% 10%", alignItems: "center"}}>
         <div style={{display: "grid",width:"100%", gridTemplateColumns: "80% 10% 10%", alignItems: "center"   }}>
           <div style={{paddingLeft: 50, fontSize: 25}}>Edit Workout</div>
@@ -21,11 +62,11 @@ class EditWorkout extends React.Component{
           <Paper style={{background: "white", width: "70%", minHeight: "10em", maxHeight: "50em", display:"grid", gridTemplateRows: "20%, 70%, 10%", alignItems: "start" , overflowY: "scroll"}}>
               <div style={{height: "7em"}}>
                 <Paper style={{backgroundColor: "violet", width:"52%", position:"absolute", top: "80px", left: "380px", padding: "20px", fontSize: 20, color: "white"}}>Edit Workout</Paper>
-                <button style={{height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em", margin: "20px", marginTop: 60}}>ADD EXERCISE</button>
+                <button onClick={this.addExercise.bind(this)} style={{height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em", margin: "20px", marginTop: 60}}>ADD EXERCISE</button>
               </div>
               <div style={{maxHeight: "35em", overflowY: "scroll"}}>
-                
 
+                  {exCurrentArray}
 
               </div>
 
@@ -66,13 +107,20 @@ class EditWorkout extends React.Component{
 
 const mapStateToProps = state =>{
   return {
-    logedInUser: state.logedInUserReducer
+    logedInUser: state.logedInUserReducer,
+    exercises: state.exercisesReducer,
+    workouts: state.workoutsReducer
   }
 }
 
 const mapDispatchToProps = dispatch =>{
-  return {
-
+    return {
+      newWorkout: (exercise) =>{
+        dispatch(newWorkout(exercise))
+      },
+      addToWorkout: (exercise) =>{
+        dispatch(addToWorkout(exercise))
+      },
     }
   }
 

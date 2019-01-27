@@ -8,11 +8,10 @@ import {connect} from 'react-redux'
 import {deleteEx} from '../../Actions/exercisesActions'
 import {moveUp} from '../../Actions/exercisesActions'
 import {moveDown} from '../../Actions/exercisesActions'
-import configureStore from '../../configureStore'
 import {updateExName} from '../../Actions/exercisesActions'
 import {updateExMeasure} from '../../Actions/exercisesActions'
 
-const store = configureStore()
+
 
 
 class Exercise extends React.Component {

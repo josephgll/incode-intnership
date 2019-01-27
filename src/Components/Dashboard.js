@@ -3,12 +3,13 @@ import {connect} from 'react-redux'
 import {getLogout} from '../Actions/logedInUserActions'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom'
-import InfiniteCalendar from "react-infinite-calendar";
+import InfiniteCalendar, {withMultipleDates, Calendar, defaultMultipleDateInterpolation} from "react-infinite-calendar";
 import 'react-infinite-calendar/styles.css';
 import SignOutLogo from "./MiniComponents/SignOutLogo"
 import {Route} from 'react-router-dom'
 import { withProps } from 'recompose';
 import {setWorkoutDate} from '../Actions/workoutsActions'
+import {saveDate} from '../Actions/workoutsActions'
 
 
 
@@ -20,20 +21,29 @@ class Dashboard extends React.Component{
 
   calendar(date){
     let data = moment(date).format('MM-DD-YYYY')
+    this.props.saveDate(data)
     this.props.setWorkoutDate(data)
     this.props.history.push(`newworkout/${data}`)
   }
 
 
   render(){
+    let datesArray = []
+    for(let i=0; i<this.props.workouts.savedDates.length; i++){
+      if(this.props.workouts[this.props.workouts.savedDates[i]] && this.props.workouts[this.props.workouts.savedDates[i]].exName !== [] ){
+          console.log(this.props.workouts[this.props.workouts.savedDates[i]].exName)
+          datesArray.push(new Date(this.props.workouts.savedDates[i]))
+        }
+    }
+
     return <Fragment>
     <div>
         <div style={{float: "left", margin: 50, fontSize: 25}}>Dashboard</div>
         <div style={{float: "right", display: "flex", alignItems: "center", padding:"40px"}}><p>{this.props.logedInUser.logedInUser}</p><SignOutLogo /></div>
     </div>
     <div style={{marginTop: 120,marginLeft:100}}>
-      <input type="button" value="ADD NEW EXERCISE" style={{width: 150, height: 40, marginLeft: -108, marginBottom: 5, backgroundColor: "violet", color: "white", border: "none", borderRadius: "2%" }} />
-      <input type="button" value="ADD NEW WORKOUT" style={{width: 150, height: 40, marginLeft: 100, marginBottom: 5, backgroundColor: "violet", color: "white", border: "none", borderRadius: "2%" }} />
+      <Link to="/newexercise" style={{textDecoration: "none"}}><input type="button" value="ADD NEW EXERCISE" style={{width: 150, height: 40, marginLeft: -108, marginBottom: 5, backgroundColor: "violet", color: "white", border: "none", borderRadius: "2%" }} /></Link>
+      <Link to="/newworkout" ><input type="button" value="ADD NEW WORKOUT" style={{width: 150, height: 40, marginLeft: 100, marginBottom: 5, backgroundColor: "violet", color: "white", border: "none", borderRadius: "2%" }} /></Link>
       <InfiniteCalendar onSelect={this.calendar.bind(this)} theme={{
       selectionColor: 'violet',
       textColor: {
@@ -47,7 +57,10 @@ class Dashboard extends React.Component{
         color: '#FFF',
         chevron: '#FFA726'
       }
-   }} />
+   }}  Component={withMultipleDates(Calendar)}
+  selected={datesArray}
+  interpolateSelection={defaultMultipleDateInterpolation}
+/>/>
     </div>
     <div style={{marginTop: 80, borderTop: "1px solid gray", display: "flex"}}>
       <div style={{width: "80%", display: "flex", alignItems: "center", height: 75, justifyContent: "space-around"}}>
@@ -77,7 +90,8 @@ class Dashboard extends React.Component{
 
 const mapStateToProps = state =>{
   return {
-    logedInUser: state.logedInUserReducer
+    logedInUser: state.logedInUserReducer,
+    workouts: state.workoutsReducer
   }
 }
 
@@ -88,6 +102,9 @@ const mapDispatchToProps = dispatch =>{
     },
     setWorkoutDate: (date) =>{
       dispatch(setWorkoutDate(date))
+    },
+    saveDate: (date) =>{
+      dispatch(saveDate(date))
     }
     }
   }

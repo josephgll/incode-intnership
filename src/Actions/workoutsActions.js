@@ -18,3 +18,52 @@ export function addToWorkout(exercise){
     payload: exercise
   }
 }
+
+export function changeEx(exercise){
+  return {
+    type: "CHANGENAMEANDMEASURE",
+    payload: exercise
+  }
+}
+
+export function changeRepeats(repeats){
+  return {
+    type: "CHANGEREPEATS",
+    payload: repeats
+  }
+}
+
+export function changeMeasureQ(measureq){
+  return {
+    type: "CHANGEMEASUREQ",
+    payload: measureq
+  }
+}
+
+export function deleteWorkout(workout){
+  return {
+    type: "WORKOUTDELETE",
+    payload: workout
+  }
+}
+
+export function moveUpWorkout(workout){
+  return{
+    type: "WORKOUTMOVEUP",
+    payload: workout
+  }
+}
+
+export function moveDownWorkout(workout){
+  return{
+    type: "WORKOUTMOVEDOWN",
+    payload: workout
+  }
+}
+
+export function saveDate(date){
+  return{
+    type: "SAVEDDATES",
+    payload: date
+  }
+}

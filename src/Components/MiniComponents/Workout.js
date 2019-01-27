@@ -5,29 +5,85 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Input from '@material-ui/core/Input';
 import Fab from '@material-ui/core/Fab';
 import {connect} from 'react-redux'
+import {changeEx} from '../../Actions/workoutsActions'
+import {changeRepeats} from '../../Actions/workoutsActions'
+import {changeMeasureQ} from '../../Actions/workoutsActions'
+import {deleteWorkout} from '../../Actions/workoutsActions'
+import {moveUpWorkout} from '../../Actions/workoutsActions'
+import {moveDownWorkout} from '../../Actions/workoutsActions'
+
+
+
 
 
 class Workout extends React.Component {
+  constructor(props){
+    super(props)
+    this.checkMType = this.checkMType.bind(this)
+    let a = 60
+  }
 
-  state= {
+  state={
     mType: ''
   }
 
+  checkMType(){
+    let mType = ""
+    switch(this.props.exMeasure){
+      case "kilograms":
+      mType = "kg"
+      break;
+
+      case "pounds":
+      mType = "p"
+      break;
+
+      default:
+      break
+    }
+    this.setState((prevState, props) => ({
+  counter: prevState.counter + props.increment
+}));
+  }
+
+
 
   changeExName(){
-    let selector = document.getElementById('select')
+    let selector = document.getElementById(`select${this.props.index}`)
     let value = selector[selector.selectedIndex].value;
-    if (value === "kilograms"){
-      this.setState({mType: 'kg'})
-    } else{
-      this.setState({mType: 'p'})
-    }
+    this.props.changeEx([this.props.date, this.props.index, this.props.exercises.exercise[value], this.props.exercises.measurement[value]])
+    this.checkMType()
+  }
+
+  handleRepeats(e){
+
+    let repeats = e.target.value
+    this.props.changeRepeats([this.props.date, this.props.index, repeats])
+  }
+
+  handleMeasurementsQ(e){
+    let measurementsQ = e.target.value
+    this.props.changeMeasureQ([this.props.date, this.props.index, measurementsQ])
+  }
+
+  deleteWorkout(){
+    this.props.deleteWorkout([this.props.date, this.props.index])
+  }
+
+  moveUpWorkout(){
+    if (this.props.index > 0)
+    {this.props.moveUpWorkout([this.props.date, this.props.index])
+  }
+  }
+
+  moveDownWorkout(){
+    this.props.moveDownWorkout([this.props.date, this.props.index])
   }
 
   render(){
     let exNamesArray=[];
     for(let i=0; i<this.props.exercises.exercise.length; i++){
-      exNamesArray.push(<option key={i} value={this.props.exercises.measurement[i]}>{this.props.exercises.exercise[i]}</option>)
+      exNamesArray.push(<option key={`exercise${i}`} value={i}>{this.props.exercises.exercise[i]}</option>)
     }
 
 
@@ -35,29 +91,29 @@ class Workout extends React.Component {
         <div style={{display: "grid", borderBottom: "1px solid lightgray", width: "90%", gridTemplateColumns: "15% 22.5% 22.5% 5% 35%", paddingBottom: "1em", paddingTop: "3em", alignItems: "center", gridColumnGap: "1em"}}>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
             <label htmlFor="select" style={{color: "gray"}}>Exercise Name</label>
-            <select onChange = {this.changeExName.bind(this)} style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select"   required >
+            <select onChange = {this.changeExName.bind(this)} style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id={`select${this.props.index}`} value={this.props.exercises.exercise.indexOf(this.props.exName)}  required >
               {exNamesArray}
             </select>
         </div>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
             <label htmlFor="exName" style={{color: "gray"}}>Repeats</label>
-            <Input style={{ }}  type="textfield" id="exName" required />
+            <Input onChange={this.handleRepeats.bind(this)} value={this.props.workouts[this.props.date].exRepeats[this.props.index]} style={{ }}  type="textfield" id="exName" required />
           </div>
           <div style={{display: "grid", gridTemplateRows: "50% 50%", gridAlignItems:"center", height: "100%"}}>
-            <label htmlFor="exName" style={{color: "gray"}}>Measurement</label>
-            <Input style={{ }}  type="textfield" id="exName" required />
+            <label htmlFor="exName" style={{color: "gray"}}>Measure</label>
+            <Input onChange={this.handleMeasurementsQ.bind(this)} value={this.props.workouts[this.props.date].exMeasureQ[this.props.index]} style={{ }}  type="textfield" id="exName" required />
           </div>
           <div>
-            <h1 style={{fontSize: "150%"}}>{this.state.mType}</h1>
+            <h1 style={{fontSize: "150%"}}>{this.props.exMeasure}</h1>
           </div>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "90%", justifyContent:"space-between"}}>
-          <Fab size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>
+          <Fab onClick={this.moveUpWorkout.bind(this)} size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>
             <ArrowUpIcon />
           </Fab>
-          <Fab size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>
+          <Fab  onClick={this.moveDownWorkout.bind(this)} size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>
             <ArrowDownIcon />
           </Fab>
-          <Fab size="small"  aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "orange"}}>
+          <Fab onClick={this.deleteWorkout.bind(this)} size="small"  aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "orange"}}>
             <CancelIcon style={{color: "white"}} />
           </Fab>
         </div>
@@ -69,13 +125,31 @@ class Workout extends React.Component {
 const mapStateToProps = state =>{
   return {
     logedInUser: state.logedInUserReducer,
-    exercises: state.exercisesReducer
+    exercises: state.exercisesReducer,
+    workouts: state.workoutsReducer
   }
 }
 
 const mapDispatchToProps = dispatch =>{
   return {
-
+    changeEx: (exercise) =>{
+      dispatch(changeEx(exercise))
+    },
+    changeRepeats: (repeats) =>{
+      dispatch(changeRepeats(repeats))
+    },
+    changeMeasureQ: (measureq) =>{
+      dispatch(changeMeasureQ(measureq))
+    },
+    deleteWorkout: (workout) =>{
+      dispatch(deleteWorkout(workout))
+    },
+    moveUpWorkout: (workout) =>{
+      dispatch(moveUpWorkout(workout))
+    },
+    moveDownWorkout: (workout) =>{
+      dispatch(moveDownWorkout(workout))
+    },
     }
   }
 

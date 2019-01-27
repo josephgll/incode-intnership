@@ -26,6 +26,7 @@ class App extends Component {
 
 
   render() {
+    let currentDatee = this.props.workouts.currentDate
     return (
       <Fragment>
         {!this.props.logedInUser.ifLogedIn ?
@@ -45,7 +46,6 @@ class App extends Component {
         <Route exact path="/" component={Dashboard}/>
         <Route exact path="/dashboard" component={Dashboard}/>
         <Route  path="/editexercises" component={EditExercises}/>
-        <Route path="/editworkout" component={EditWorkout}/>
         <Route path="/newexercise" component={NewExercise}/>
 
         <Route  path="/newworkout" render={() => (
@@ -53,6 +53,14 @@ class App extends Component {
             <Redirect to="/dashboard"/>
           ) : (
             <NewWorkout />
+          )
+        )}/>
+
+        <Route  path="/editworkout" render={() => (
+          !this.props.workouts.currentDate ? (
+            <Redirect to="/newworkout"/>
+          ) : (
+            <EditWorkout />
           )
         )}/>
 
