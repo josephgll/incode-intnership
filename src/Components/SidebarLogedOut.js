@@ -9,9 +9,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SendIcon from '@material-ui/icons/Send';
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, withRouter} from 'react-router-dom';
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
+import compose from 'recompose/compose'
 
 const styles = theme => ({
   menuItem: {
@@ -26,8 +27,13 @@ const styles = theme => ({
   icon: {},
 });
 
-function ListItemComposition(props) {
-  const { classes } = props;
+class ListItemComposition extends React.Component {
+
+
+
+  render()
+  {
+
 
   return (
       <div>
@@ -35,19 +41,19 @@ function ListItemComposition(props) {
         <hr/>
       <MenuList>
         <Link to="/signin" style={{textDecoration: "none"}}>
-          <MenuItem className={classes.menuItem}>
-            <ListItemIcon className={classes.icon}>
+          <MenuItem style={this.props.history.location.pathname==='/signin' || this.props.history.location.pathname==='/'  ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}}>
+            <ListItemIcon >
               <AccountCircle />
             </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary }} inset primary="Sign In" />
+            <ListItemText  inset primary="Sign In" />
           </MenuItem>
       </Link>
       <Link to="/signup" style={{textDecoration: "none"}}>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
+        <MenuItem style={this.props.history.location.pathname==='/signup' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}}>
+          <ListItemIcon >
             <AccountCircle />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Sign Up" />
+          <ListItemText  inset primary="Sign Up" />
         </MenuItem>
       </Link>
       </MenuList>
@@ -59,9 +65,17 @@ function ListItemComposition(props) {
 
   );
 }
+}
 
 ListItemComposition.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ListItemComposition);
+
+
+
+// export default withStyles(styles)(ListItemComposition);
+
+export default compose(
+   withStyles(styles)
+)(withRouter(ListItemComposition))

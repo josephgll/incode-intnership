@@ -10,6 +10,7 @@ import {Route} from 'react-router-dom'
 import { withProps } from 'recompose';
 import {setWorkoutDate} from '../Actions/workoutsActions'
 import {saveDate} from '../Actions/workoutsActions'
+import {deleteDate} from '../Actions/workoutsActions'
 
 
 
@@ -19,22 +20,56 @@ const moment = require('moment');
 
 class Dashboard extends React.Component{
 
+  state
+
   calendar(date){
     let data = moment(date).format('MM-DD-YYYY')
     this.props.saveDate(data)
     this.props.setWorkoutDate(data)
-    this.props.history.push(`newworkout/${data}`)
+    this.props.history.push(`newworkout`)
+  }
+
+  componentDidMount(){
+    for (let i=0; i<this.props.workouts.savedDates.length; i++){
+      if(!this.props.workouts[this.props.workouts.savedDates[i]]){
+        this.props.deleteDate(i)
+      } else if (this.props.workouts[this.props.workouts.savedDates[i]] && this.props.workouts[this.props.workouts.savedDates[i]].exName.length===0){
+        this.props.deleteDate(i)
+      }
+    }
+  }
+
+  componentDidUpdate(){
+    for (let i=0; i<this.props.workouts.savedDates.length; i++){
+      if(!this.props.workouts[this.props.workouts.savedDates[i]]){
+        this.props.deleteDate(i)
+      } else if (this.props.workouts[this.props.workouts.savedDates[i]] && this.props.workouts[this.props.workouts.savedDates[i]].exName.length===0){
+        this.props.deleteDate(i)
+      }
+    }
   }
 
 
+
+
+
+
+
   render(){
-    let datesArray = []
-    for(let i=0; i<this.props.workouts.savedDates.length; i++){
-      if(this.props.workouts[this.props.workouts.savedDates[i]] && this.props.workouts[this.props.workouts.savedDates[i]].exName !== [] ){
-          console.log(this.props.workouts[this.props.workouts.savedDates[i]].exName)
-          datesArray.push(new Date(this.props.workouts.savedDates[i]))
-        }
-    }
+    // let datesArray = []
+    // for(let i=0; i<this.props.workouts.savedDates.length; i++){
+    //   if(this.props.workouts[this.props.workouts.savedDates[i]]){
+    //       // console.log(this.props.workouts[this.props.workouts.savedDates[i]].exName)
+    //       datesArray.push(new Date(this.props.workouts.savedDates[i]))
+    //       if(this.props.workouts[this.props.workouts.savedDates[i]].exName.length===0){
+    //         // this.props.deleteDate(i)
+    //       }
+    //     }
+    //
+    // }
+
+
+
 
     return <Fragment>
     <div>
@@ -58,7 +93,7 @@ class Dashboard extends React.Component{
         chevron: '#FFA726'
       }
    }}  Component={withMultipleDates(Calendar)}
-  selected={datesArray}
+  selected={this.props.workouts.savedDates}
   interpolateSelection={defaultMultipleDateInterpolation}
 />/>
     </div>
@@ -105,7 +140,10 @@ const mapDispatchToProps = dispatch =>{
     },
     saveDate: (date) =>{
       dispatch(saveDate(date))
-    }
+    },
+    deleteDate: (date) =>{
+      dispatch(deleteDate(date))
+    },
     }
   }
 

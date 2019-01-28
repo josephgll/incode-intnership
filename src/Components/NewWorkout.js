@@ -1,12 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import Workout from './MiniComponents/Workout'
 import SignOutLogo from "./MiniComponents/SignOutLogo"
 import Paper from '@material-ui/core/Paper';
 import {newWorkout} from '../Actions/workoutsActions'
 import {addToWorkout} from '../Actions/workoutsActions'
+import compose from 'recompose/compose'
+
 
 
 
@@ -28,6 +30,7 @@ class NewWorkout extends React.Component{
     } else{
       this.props.addToWorkout([currentDatee, exName, exMeasure, exRepeats, exMeasureQ])
     }
+
   }
 
 
@@ -54,7 +57,7 @@ class NewWorkout extends React.Component{
     }}
     return <div style={{display: "grid", height: "100%", gridTemplateRows: "10% 80% 10%", alignItems: "center"}}>
         <div style={{display: "grid",width:"100%", gridTemplateColumns: "80% 10% 10%", alignItems: "center"   }}>
-          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout {this.props.workouts.currentDate}</div>
+          <div style={{paddingLeft: 50, fontSize: 25}}>New Workout</div>
           <div style={{}}>{this.props.logedInUser.logedInUser}</div>
           <div style={{justifySelf:"center" }}><SignOutLogo /></div>
         </div>

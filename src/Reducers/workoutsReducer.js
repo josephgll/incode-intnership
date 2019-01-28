@@ -142,6 +142,16 @@ const workoutsReducer = (state = {
       ...state,
       savedDates: [...state.savedDates, action.payload]
     }
+    break;
+
+    case "DELETESAVEDDATE":
+    let tempSavedDates = [...state.savedDates]
+    tempSavedDates.splice(action.payload,1)
+    state = {
+      ...state,
+      savedDates: tempSavedDates
+    }
+    break;
 
     default:
     break;

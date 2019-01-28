@@ -9,10 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import SendIcon from '@material-ui/icons/Send';
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, withRouter} from 'react-router-dom';
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
 import Receipt from '@material-ui/icons/Receipt';
+import compose from 'recompose/compose'
 
 
 const styles = theme => ({
@@ -28,50 +29,52 @@ const styles = theme => ({
   icon: {},
 });
 
-function ListItemComposition(props) {
-  const { classes } = props;
+class ListItemComposition extends React.Component {
+render()
 
-  return (
+
+
+  {return (
       <div>
         <h1 style={{fontSize: 50, margin: 15}}>Trainer Fit</h1>
         <hr/>
       <MenuList>
         <Link to="/dashboard" style={{textDecoration: "none"}}>
-          <MenuItem className={classes.menuItem}>
-            <ListItemIcon className={classes.icon}>
+          <MenuItem style={this.props.history.location.pathname==='/dashboard' || this.props.history.location.pathname==='/' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}} >
+            <ListItemIcon >
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText classes={{ primary: classes.primary }} inset primary="Dashboard" />
+            <ListItemText  inset primary="Dashboard" />
           </MenuItem>
       </Link>
       <Link to="/newexercise" style={{textDecoration: "none"}}>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
+        <MenuItem style={this.props.history.location.pathname==='/newexercise' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}} >
+          <ListItemIcon >
             <Receipt />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="New Exercise" />
+          <ListItemText  inset primary="New Exercise" />
         </MenuItem>
       </Link>
       <Link to="/editexercises" style={{textDecoration: "none"}}>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
+        <MenuItem style={this.props.history.location.pathname==='/editexercises' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}} >
+          <ListItemIcon >
             <Receipt />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Edit Exercises" />
+          <ListItemText  inset primary="Edit Exercises" />
         </MenuItem>
       </Link><Link to="/newworkout" style={{textDecoration: "none"}}>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
+        <MenuItem style={this.props.history.location.pathname==='/newworkout' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}} >
+          <ListItemIcon >
             <Receipt />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="New Workout" />
+          <ListItemText  inset primary="New Workout" />
         </MenuItem>
       </Link><Link to="/editworkout" style={{textDecoration: "none"}}>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
+        <MenuItem style={this.props.history.location.pathname==='/editworkout' ? {backgroundColor: 'lightblue'} : {backgroundColor: "white"}} >
+          <ListItemIcon >
             <Receipt />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Edit Workout" />
+          <ListItemText  inset primary="Edit Workout" />
         </MenuItem>
       </Link>
       </MenuList>
@@ -81,7 +84,7 @@ function ListItemComposition(props) {
     </div>
 
 
-  );
+  );}
 }
 
 
@@ -89,4 +92,8 @@ ListItemComposition.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ListItemComposition);
+// export default withStyles(styles)(ListItemComposition);
+
+export default compose(
+   withStyles(styles)
+)(withRouter(ListItemComposition))

@@ -67,3 +67,10 @@ export function saveDate(date){
     payload: date
   }
 }
+
+export function deleteDate(date){
+  return{
+    type: "DELETESAVEDDATE",
+    payload: date
+  }
+}

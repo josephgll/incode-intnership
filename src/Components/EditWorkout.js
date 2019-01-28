@@ -20,7 +20,7 @@ class EditWorkout extends React.Component{
     let exMeasure = this.props.exercises.measurement[0]
     let exRepeats = ' '
     let exMeasureQ = ' '
-    if(!this.props.workouts[currentDatee]){
+    if(!this.props.workouts[currentDatee] || this.props.workouts[currentDatee].exName.length===0){
         e.preventDefault()
         alert("Please create a workout first")
     } else{
