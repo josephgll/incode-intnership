@@ -4,7 +4,6 @@ import {getLogout} from '../Actions/logedInUserActions'
 import {Link} from 'react-router-dom'
 import Input from '@material-ui/core/Input';
 import SignOutLogo from "./MiniComponents/SignOutLogo"
-import configureStore from '../configureStore'
 import {createEx} from '../Actions/exercisesActions'
 import {signUp} from '../Actions/emailPasswordActions'
 
@@ -55,7 +54,9 @@ class NewExercise extends React.Component{
           <label htmlFor="select" style={{marginLeft: 25, marginTop: 50, width: 1000, color: "gray"}}>Measurement Type</label>
           <select onChange={this.handleExMeasure.bind(this)} style={{display: "block", width: 1020, marginLeft: 25, marginTop: 30, border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 20, fontWeight: 100}} id="select" required >
             <option value="kilograms">Kilograms</option>
-            <option value="pounds">Pounds</option>
+            <option value="grams">Grams</option>
+            <option value="minutes">Minutes</option>
+            <option value="seconds">Seconds</option>
           </select>
         </div>
         <input onClick={this.createExercise.bind(this)} type="button" value="CREATE EXERCISE" style={{width: 150, height: 40, marginLeft: 25, marginTop: 30, backgroundColor: "violet", color: "white", border: "none", fontSize: 15}} />

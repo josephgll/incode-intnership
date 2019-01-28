@@ -2,7 +2,7 @@
 import Grid from '@material-ui/core/Grid';
 import SidebarLogedOut from './SidebarLogedOut'
 import SignIn from './SignIn'
-import {Route, Link, Switch, Redirect} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import SignUp from "./SignUp"
 import {connect} from 'react-redux'
 import {signUp} from '../Actions/emailPasswordActions'
@@ -15,18 +15,13 @@ import NewExercise from './NewExercise'
 import NewWorkout from './NewWorkout'
 
 
-const styles = {
-  gridItem: {
-    border: "1px solid black"
-  }
-}
+
 
 
 class App extends Component {
 
 
   render() {
-    let currentDatee = this.props.workouts.currentDate
     return (
       <Fragment>
         {!this.props.logedInUser.ifLogedIn ?

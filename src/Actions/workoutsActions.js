@@ -74,3 +74,10 @@ export function deleteDate(date){
     payload: date
   }
 }
+
+export function updateMeasure(measure){
+  return{
+    type: "UPDATEMEASURE",
+    payload: measure
+  }
+}

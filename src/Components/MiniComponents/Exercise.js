@@ -54,7 +54,9 @@ class Exercise extends React.Component {
             <label htmlFor="select" style={{color: "gray"}}>Measurement type</label>
             <select style={{border: "none", borderBottom: "1px solid black", backgroundColor: "white", fontSize: 15, fontWeight: 50}} id="select" value={this.props.measurement} onChange={this.handleSelect.bind(this)}  >
               <option value="kilograms" >Kilograms</option>
-              <option value="pounds" >Pounds</option>
+              <option value="grams" >Grams</option>
+              <option value="minutes" >Minutes</option>
+              <option value="seconds" >Seconds</option>
             </select>
         </div>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "60%", justifyItems:"center"}}>

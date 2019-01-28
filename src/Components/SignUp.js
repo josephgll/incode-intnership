@@ -4,7 +4,6 @@ import Input from '@material-ui/core/Input';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signUp} from '../Actions/emailPasswordActions';
-import configureStore from '../configureStore'
 
 
 

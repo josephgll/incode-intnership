@@ -28,7 +28,7 @@ class SignIn extends React.Component
       loggedIn = true;
       this.props.getLogin(this.state.email);
       this.props.history.push('/dashboard');
-      
+
       break;
     } else if (this.state.email!==this.props.savedEmailsPasswords.email[i] || this.state.password!==this.props.savedEmailsPasswords.password[i])  {
       loggedIn = false;
@@ -45,9 +45,7 @@ class SignIn extends React.Component
 }
 
 
-  handleRedux(){
-    console.log(window.location.href);
-  }
+
 
 
   render()
@@ -57,7 +55,7 @@ class SignIn extends React.Component
       <div><AccountCircle style={{float: "right", margin: 50, fontSize: 35}} /></div>
   </div>
   <div style={{position: "absolute", background: "violet", width: 650, height: 90, marginTop: 180, marginLeft: 120}}>
-    <h2 style={{margin: 10, color: "white" ,fontWeight: "normal" }} onClick={this.handleRedux.bind(this)}>Sign Into Fit Trainer App</h2>
+    <h2 style={{margin: 10, color: "white" ,fontWeight: "normal" }}>Sign Into Fit Trainer App</h2>
     <h3 style={{margin: 10, color: "gray", fontWeight: "lighter"}}>Please enter your email and password</h3>
   </div>
   <div style={{background: "white", width: 700, height: 400, marginTop: 200, marginLeft: 100, borderRadius: "2%"}}>

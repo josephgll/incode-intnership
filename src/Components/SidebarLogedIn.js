@@ -1,33 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import SendIcon from '@material-ui/icons/Send';
-import {Route, Link, withRouter} from 'react-router-dom';
-import SignIn from "./SignIn"
-import SignUp from "./SignUp"
+import { Link, withRouter} from 'react-router-dom';
 import Receipt from '@material-ui/icons/Receipt';
-import compose from 'recompose/compose'
 
 
-const styles = theme => ({
-  menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-  primary: {},
-  icon: {},
-});
+
+
 
 class ListItemComposition extends React.Component {
 render()
@@ -88,12 +70,6 @@ render()
 }
 
 
-ListItemComposition.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
-// export default withStyles(styles)(ListItemComposition);
 
-export default compose(
-   withStyles(styles)
-)(withRouter(ListItemComposition))
+export default withRouter(ListItemComposition)

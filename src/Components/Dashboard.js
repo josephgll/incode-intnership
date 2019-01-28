@@ -1,13 +1,10 @@
 import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
 import {getLogout} from '../Actions/logedInUserActions'
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom'
 import InfiniteCalendar, {withMultipleDates, Calendar, defaultMultipleDateInterpolation} from "react-infinite-calendar";
 import 'react-infinite-calendar/styles.css';
 import SignOutLogo from "./MiniComponents/SignOutLogo"
-import {Route} from 'react-router-dom'
-import { withProps } from 'recompose';
 import {setWorkoutDate} from '../Actions/workoutsActions'
 import {saveDate} from '../Actions/workoutsActions'
 import {deleteDate} from '../Actions/workoutsActions'
@@ -20,7 +17,6 @@ const moment = require('moment');
 
 class Dashboard extends React.Component{
 
-  state
 
   calendar(date){
     let data = moment(date).format('MM-DD-YYYY')
@@ -50,25 +46,7 @@ class Dashboard extends React.Component{
   }
 
 
-
-
-
-
-
   render(){
-    // let datesArray = []
-    // for(let i=0; i<this.props.workouts.savedDates.length; i++){
-    //   if(this.props.workouts[this.props.workouts.savedDates[i]]){
-    //       // console.log(this.props.workouts[this.props.workouts.savedDates[i]].exName)
-    //       datesArray.push(new Date(this.props.workouts.savedDates[i]))
-    //       if(this.props.workouts[this.props.workouts.savedDates[i]].exName.length===0){
-    //         // this.props.deleteDate(i)
-    //       }
-    //     }
-    //
-    // }
-
-
 
 
     return <Fragment>
@@ -95,7 +73,7 @@ class Dashboard extends React.Component{
    }}  Component={withMultipleDates(Calendar)}
   selected={this.props.workouts.savedDates}
   interpolateSelection={defaultMultipleDateInterpolation}
-/>/>
+/>
     </div>
     <div style={{marginTop: 80, borderTop: "1px solid gray", display: "flex"}}>
       <div style={{width: "80%", display: "flex", alignItems: "center", height: 75, justifyContent: "space-around"}}>

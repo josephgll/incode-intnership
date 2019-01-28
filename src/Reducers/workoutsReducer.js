@@ -153,6 +153,19 @@ const workoutsReducer = (state = {
     }
     break;
 
+    case "UPDATEMEASURE":
+    let tempExMeasure4 = [...state[action.payload[0]].exMeasure]
+    tempExMeasure4[action.payload[1]] = action.payload[2]
+    state = {
+      ...state,
+      [action.payload[0]]: {
+        ...state[action.payload[0]],
+        exMeasure: tempExMeasure4,
+      }
+    }
+    break;
+
+
     default:
     break;
   }

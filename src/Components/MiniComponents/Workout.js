@@ -11,52 +11,29 @@ import {changeMeasureQ} from '../../Actions/workoutsActions'
 import {deleteWorkout} from '../../Actions/workoutsActions'
 import {moveUpWorkout} from '../../Actions/workoutsActions'
 import {moveDownWorkout} from '../../Actions/workoutsActions'
+import {updateMeasure} from '../../Actions/workoutsActions'
 
 
 
 
 
 class Workout extends React.Component {
-  constructor(props){
-    super(props)
-    this.checkMType = this.checkMType.bind(this)
-    let a = 60
+
+
+  componentDidMount(){
+    let selector = document.getElementById(`select${this.props.index}`)
+    let value = selector[selector.selectedIndex].value;
+    this.props.updateMeasure([this.props.date, this.props.index, this.props.exercises.measurement[value]])
   }
-
-  state={
-    mType: ''
-  }
-
-  checkMType(){
-    let mType = ""
-    switch(this.props.exMeasure){
-      case "kilograms":
-      mType = "kg"
-      break;
-
-      case "pounds":
-      mType = "p"
-      break;
-
-      default:
-      break
-    }
-    this.setState((prevState, props) => ({
-  counter: prevState.counter + props.increment
-}));
-  }
-
 
 
   changeExName(){
     let selector = document.getElementById(`select${this.props.index}`)
     let value = selector[selector.selectedIndex].value;
     this.props.changeEx([this.props.date, this.props.index, this.props.exercises.exercise[value], this.props.exercises.measurement[value]])
-    this.checkMType()
   }
 
   handleRepeats(e){
-
     let repeats = e.target.value
     this.props.changeRepeats([this.props.date, this.props.index, repeats])
   }
@@ -86,6 +63,28 @@ class Workout extends React.Component {
       exNamesArray.push(<option key={`exercise${i}`} value={i}>{this.props.exercises.exercise[i]}</option>)
     }
 
+    let mType = ""
+    switch(this.props.workouts[this.props.date].exMeasure[this.props.index]){
+      case "kilograms":
+      mType = "kg"
+      break;
+
+      case "grams":
+      mType = "g"
+      break;
+
+      case "minutes":
+      mType = "m"
+      break;
+
+      case "seconds":
+      mType = "s"
+      break;
+
+      default:
+      break
+    }
+
 
     return   <div style={{display: "grid", justifyItems: "center"}}>
         <div style={{display: "grid", borderBottom: "1px solid lightgray", width: "90%", gridTemplateColumns: "15% 22.5% 22.5% 5% 35%", paddingBottom: "1em", paddingTop: "3em", alignItems: "center", gridColumnGap: "1em"}}>
@@ -104,7 +103,8 @@ class Workout extends React.Component {
             <Input onChange={this.handleMeasurementsQ.bind(this)} value={this.props.workouts[this.props.date].exMeasureQ[this.props.index]} style={{ }}  type="textfield" id="exName" required />
           </div>
           <div>
-            <h1 style={{fontSize: "150%"}}>{this.props.exMeasure}</h1>
+
+            <h1 style={{fontSize: "150%"}}>{mType}</h1>
           </div>
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr", width: "90%", justifyContent:"space-between"}}>
           <Fab onClick={this.moveUpWorkout.bind(this)} size="small" color="primary" aria-label="Add" variant="extended" style={{width: "6em", height: "3em", borderRadius: "5%", backgroundColor: "blue"}}>
@@ -149,6 +149,9 @@ const mapDispatchToProps = dispatch =>{
     },
     moveDownWorkout: (workout) =>{
       dispatch(moveDownWorkout(workout))
+    },
+    updateMeasure: (measure) =>{
+      dispatch(updateMeasure(measure))
     },
     }
   }

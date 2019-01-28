@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import {Link} from 'react-router-dom'
 import Workout from './MiniComponents/Workout'
 import SignOutLogo from "./MiniComponents/SignOutLogo"

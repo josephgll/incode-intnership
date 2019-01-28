@@ -1,22 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import {Link, withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Workout from './MiniComponents/Workout'
 import SignOutLogo from "./MiniComponents/SignOutLogo"
 import Paper from '@material-ui/core/Paper';
 import {newWorkout} from '../Actions/workoutsActions'
 import {addToWorkout} from '../Actions/workoutsActions'
-import compose from 'recompose/compose'
+
 
 
 
 
 class NewWorkout extends React.Component{
-
-  state={
-    exCount: ''
-  }
 
   addExercise(){
     let currentDatee = this.props.workouts.currentDate;
@@ -73,7 +68,7 @@ class NewWorkout extends React.Component{
 
               </div>
 
-            <button onClick={()=>console.log(this.props.workouts)} style={{margin: 20, height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em"}}>CREATE WORKOUT</button>
+            <button style={{margin: 20, height: "3em", backgroundColor: "violet", border: "none", color: "white", width: "15em"}}>CREATE WORKOUT</button>
           </Paper>
 
         </div>
