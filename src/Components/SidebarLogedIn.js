@@ -57,34 +57,32 @@ class ListItemComposition extends React.Component {
               <ListItemText inset primary="Edit Exercises" />
             </MenuItem>
           </Link>
-          <Link to="/newworkout" style={{ textDecoration: "none" }}>
-            <MenuItem
-              style={
-                this.props.history.location.pathname === "/newworkout"
-                  ? { backgroundColor: "lightblue" }
-                  : { backgroundColor: "white" }
-              }
-            >
-              <ListItemIcon>
-                <Receipt />
-              </ListItemIcon>
-              <ListItemText inset primary="New Workout" />
-            </MenuItem>
-          </Link>
-          <Link to="/editworkout" style={{ textDecoration: "none" }}>
-            <MenuItem
-              style={
-                this.props.history.location.pathname === "/editworkout"
-                  ? { backgroundColor: "lightblue" }
-                  : { backgroundColor: "white" }
-              }
-            >
-              <ListItemIcon>
-                <Receipt />
-              </ListItemIcon>
-              <ListItemText inset primary="Edit Workout" />
-            </MenuItem>
-          </Link>
+
+          <MenuItem
+            style={
+              this.props.history.location.pathname === "/newworkout"
+                ? { backgroundColor: "lightblue" }
+                : { backgroundColor: "white" }
+            }
+          >
+            <ListItemIcon>
+              <Receipt />
+            </ListItemIcon>
+            <ListItemText inset primary="New Workout" />
+          </MenuItem>
+
+          <MenuItem
+            style={
+              this.props.history.location.pathname === "/editworkout"
+                ? { backgroundColor: "lightblue" }
+                : { backgroundColor: "white" }
+            }
+          >
+            <ListItemIcon>
+              <Receipt />
+            </ListItemIcon>
+            <ListItemText inset primary="Edit Workout" />
+          </MenuItem>
         </MenuList>
       </div>
     );

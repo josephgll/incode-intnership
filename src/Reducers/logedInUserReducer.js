@@ -12,6 +12,7 @@ const logedInUserReducer = (
         ifLogedIn: true
       };
       break;
+
     case "LOGOUT":
       state = {
         ...state,

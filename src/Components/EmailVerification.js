@@ -4,63 +4,49 @@ import Input from "@material-ui/core/Input";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUp } from "../Actions/emailPasswordActions";
-import { removeUnverified } from "../Actions/emailPasswordActions";
+import { getLogin } from "../Actions/logedInUserActions";
+import { verify } from "../Actions/emailPasswordActions";
 
-class SignUp extends React.Component {
+class EmailVerification extends React.Component {
   state = {
     email: "",
-    password: "",
-    password2: ""
+    vCode: ""
   };
 
   handleEmailValue(e) {
     this.setState({ email: e.target.value });
   }
 
-  handlePasswordValue(e) {
-    this.setState({ password: e.target.value });
+  handleVCodeValue(e) {
+    this.setState({ vCode: e.target.value });
   }
 
-  handlePasswordValue2(e) {
-    this.setState({ password2: e.target.value });
-  }
-
-  handleSubmit(e) {
+  handleVerification(e) {
+    let noemail = true;
+    let emailIndex = null;
     for (let i = 0; i < this.props.savedEmailsPasswords.email.length; i++) {
       if (this.state.email === this.props.savedEmailsPasswords.email[i]) {
-        if (this.props.savedEmailsPasswords.isVerified[i] === false) {
-          this.props.removeUnverified(i);
-          e.preventDefault();
-          break;
+        emailIndex = this.props.savedEmailsPasswords.email.indexOf(
+          this.state.email
+        );
+        noemail = false;
+        if (
+          parseInt(this.state.vCode, 10) ===
+          this.props.savedEmailsPasswords.vCode[emailIndex]
+        ) {
+          window.alert("Your email is verified");
+          this.props.verify([emailIndex, true]);
+          this.props.history.push("/signin");
         } else {
-          window.alert("Email already registered");
-          this.setState({ password: "", password2: "" });
-          e.preventDefault();
-          return false;
+          window.alert("Wrong verification code");
         }
+        e.preventDefault();
+        break;
       }
     }
-    if (this.state.password !== this.state.password2) {
-      this.setState({ password: "", password2: "" });
-      window.alert("Passwords don't match");
+    if (noemail) {
       e.preventDefault();
-    } else if (
-      this.state.password === this.state.password2 &&
-      this.state.email
-    ) {
-      let vCode = Math.floor(Math.random() * 9999999999) + 1000000000;
-      const emailPassword = [
-        this.state.email,
-        this.state.password,
-        vCode,
-        false
-      ];
-      this.setState({ password: "", password2: "" });
-      this.props.signUp(emailPassword);
-      window.alert("Data submitted (verification code is in console)");
-      console.log(`Verification code for ${this.state.email} is: ${vCode}`);
-      this.props.history.push("/emailverification");
-      e.preventDefault();
+      window.alert("No such email in database");
     }
   }
 
@@ -68,7 +54,9 @@ class SignUp extends React.Component {
     return (
       <Fragment>
         <div>
-          <div style={{ float: "left", margin: 50, fontSize: 25 }}>Sign Up</div>
+          <div style={{ float: "left", margin: 50, fontSize: 25 }}>
+            Email Verification
+          </div>
           <div>
             <AccountCircle
               style={{ float: "right", margin: 50, fontSize: 35 }}
@@ -86,10 +74,10 @@ class SignUp extends React.Component {
           }}
         >
           <h2 style={{ margin: 10, color: "white", fontWeight: "normal" }}>
-            Register With Fit Trainer App
+            Email verification to finish registration with Fit Trainer App
           </h2>
           <h3 style={{ margin: 10, color: "gray", fontWeight: "lighter" }}>
-            Please enter your email and password
+            Please confirm email adress
           </h3>
         </div>
         <div
@@ -102,7 +90,7 @@ class SignUp extends React.Component {
             borderRadius: "2%"
           }}
         >
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form onSubmit={this.handleVerification.bind(this)}>
             <div
               style={{ display: "flex", width: "30%", flexDirection: "column" }}
             >
@@ -121,42 +109,29 @@ class SignUp extends React.Component {
                   marginLeft: 25,
                   marginTop: 30
                 }}
-                placeholder="Password"
-                type="password"
-                onChange={this.handlePasswordValue.bind(this)}
-                value={this.state.password}
-                required
-              />
-              <Input
-                style={{
-                  display: "block",
-                  width: 320,
-                  marginLeft: 25,
-                  marginTop: 30
-                }}
-                placeholder="Repeat password"
-                type="password"
-                onChange={this.handlePasswordValue2.bind(this)}
-                value={this.state.password2}
+                placeholder="Verification Code"
+                onChange={this.handleVCodeValue.bind(this)}
+                value={this.state.vCode}
                 required
               />
             </div>
             <input
               type="submit"
+              value="VERIFY EMAIL"
               style={{
-                width: 100,
+                width: 150,
                 height: 40,
                 marginLeft: 25,
                 marginTop: 30,
                 backgroundColor: "violet",
                 color: "white",
                 border: "none",
-                fontSize: 20
+                fontSize: 17
               }}
             />
-            <Link to="/signin" style={{ textDecoration: "none" }}>
+            <Link to="/signup" style={{ textDecoration: "none" }}>
               <p style={{ marginLeft: 25, color: "violet" }}>
-                already have an account? sign in
+                already have an account? sign-in
               </p>
             </Link>
           </form>
@@ -200,7 +175,8 @@ class SignUp extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    savedEmailsPasswords: state.emailPasswordReducer
+    savedEmailsPasswords: state.emailPasswordReducer,
+    logedInUser: state.logedInUserReducer
   };
 };
 
@@ -209,8 +185,11 @@ const mapDispatchToProps = dispatch => {
     signUp: emailPassword => {
       dispatch(signUp(emailPassword));
     },
-    removeUnverified: email => {
-      dispatch(removeUnverified(email));
+    getLogin: login => {
+      dispatch(getLogin(login));
+    },
+    verify: code => {
+      dispatch(verify(code));
     }
   };
 };
@@ -219,5 +198,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(SignUp)
+  )(EmailVerification)
 );

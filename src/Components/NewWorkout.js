@@ -9,28 +9,32 @@ import { addToWorkout } from "../Actions/workoutsActions";
 
 class NewWorkout extends React.Component {
   addExercise() {
-    let currentDatee = this.props.workouts.currentDate;
-    let exName = this.props.exercises.exercise[0];
-    let exMeasure = this.props.exercises.measurement[0];
-    let exRepeats = " ";
-    let exMeasureQ = " ";
+    if (this.props.exercises.exercise.length > 0) {
+      let currentDatee = this.props.workouts.currentDate;
+      let exName = this.props.exercises.exercise[0];
+      let exMeasure = this.props.exercises.measurement[0];
+      let exRepeats = " ";
+      let exMeasureQ = " ";
 
-    if (!this.props.workouts[currentDatee]) {
-      this.props.newWorkout([
-        currentDatee,
-        exName,
-        exMeasure,
-        exRepeats,
-        exMeasureQ
-      ]);
+      if (!this.props.workouts[currentDatee]) {
+        this.props.newWorkout([
+          currentDatee,
+          exName,
+          exMeasure,
+          exRepeats,
+          exMeasureQ
+        ]);
+      } else {
+        this.props.addToWorkout([
+          currentDatee,
+          exName,
+          exMeasure,
+          exRepeats,
+          exMeasureQ
+        ]);
+      }
     } else {
-      this.props.addToWorkout([
-        currentDatee,
-        exName,
-        exMeasure,
-        exRepeats,
-        exMeasureQ
-      ]);
+      window.alert("Please create exercises first");
     }
   }
 
@@ -202,28 +206,26 @@ class NewWorkout extends React.Component {
                 EDIT EXERCISES
               </button>
             </Link>
-            <Link to="/newworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                NEW WORKOUT
-              </button>
-            </Link>
-            <Link to="/editworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                EDIT WORKOUT
-              </button>
-            </Link>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              NEW WORKOUT
+            </button>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              EDIT WORKOUT
+            </button>
 
             <div />
           </div>

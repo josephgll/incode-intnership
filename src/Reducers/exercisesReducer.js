@@ -1,7 +1,7 @@
 const exercisesReducer = (
   state = {
-    exercise: ["biceps", "triceps", "running"],
-    measurement: ["kilograms", "grams", "minutes"]
+    exercise: [],
+    measurement: []
   },
   action
 ) => {

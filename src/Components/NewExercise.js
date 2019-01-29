@@ -14,7 +14,13 @@ class NewExercise extends React.Component {
   };
 
   createExercise(e) {
-    let check;
+    if (this.state.exName.replace(/\s/g, "") === "") {
+      window.alert("Please enter an exercise name");
+      this.setState({ exName: "" });
+      return false;
+    }
+
+    let check = true;
     for (let i = 0; i < this.props.exercises.exercise.length; i++) {
       if (
         this.state.exName.toUpperCase() ===
@@ -95,75 +101,73 @@ class NewExercise extends React.Component {
           <div
             style={{ display: "flex", width: "30%", flexDirection: "column" }}
           >
-            <form>
-              <div
+            <div
+              style={{
+                display: "flex",
+                width: "30%",
+                flexDirection: "column"
+              }}
+            >
+              <Input
+                onChange={this.handleExName.bind(this)}
                 style={{
-                  display: "flex",
-                  width: "30%",
-                  flexDirection: "column"
+                  marginTop: 150,
+                  marginLeft: 25,
+                  width: 1020,
+                  fontSize: 20
+                }}
+                placeholder="Exercise name"
+                value={this.state.exName}
+                required
+              />
+              <label
+                htmlFor="select"
+                style={{
+                  marginLeft: 25,
+                  marginTop: 50,
+                  width: 1000,
+                  color: "gray"
                 }}
               >
-                <Input
-                  onChange={this.handleExName.bind(this)}
-                  style={{
-                    marginTop: 150,
-                    marginLeft: 25,
-                    width: 1020,
-                    fontSize: 20
-                  }}
-                  placeholder="Exercise name"
-                  value={this.state.exName}
-                  required
-                />
-                <label
-                  htmlFor="select"
-                  style={{
-                    marginLeft: 25,
-                    marginTop: 50,
-                    width: 1000,
-                    color: "gray"
-                  }}
-                >
-                  Measurement Type
-                </label>
-                <select
-                  onChange={this.handleExMeasure.bind(this)}
-                  style={{
-                    display: "block",
-                    width: 1020,
-                    marginLeft: 25,
-                    marginTop: 30,
-                    border: "none",
-                    borderBottom: "1px solid black",
-                    backgroundColor: "white",
-                    fontSize: 20,
-                    fontWeight: 100
-                  }}
-                  id="select"
-                  required
-                >
-                  <option value="kilograms">Kilograms</option>
-                  <option value="grams">Grams</option>
-                  <option value="minutes">Minutes</option>
-                  <option value="seconds">Seconds</option>
-                </select>
-              </div>
-              <input
-                onClick={this.createExercise.bind(this)}
-                type="button"
-                value="CREATE EXERCISE"
+                Measurement Type
+              </label>
+              <select
+                onChange={this.handleExMeasure.bind(this)}
                 style={{
-                  width: 150,
-                  height: 40,
+                  display: "block",
+                  width: 1020,
                   marginLeft: 25,
                   marginTop: 30,
-                  backgroundColor: "violet",
-                  color: "white",
                   border: "none",
-                  fontSize: 15
+                  borderBottom: "1px solid black",
+                  backgroundColor: "white",
+                  fontSize: 20,
+                  fontWeight: 100
                 }}
-              />
-            </form>
+                id="select"
+                required
+              >
+                <option value="kilograms">Kilograms</option>
+                <option value="grams">Grams</option>
+                <option value="minutes">Minutes</option>
+                <option value="seconds">Seconds</option>
+              </select>
+            </div>
+            <input
+              onClick={this.createExercise.bind(this)}
+              type="button"
+              value="CREATE EXERCISE"
+              style={{
+                width: 150,
+                height: 40,
+                marginLeft: 25,
+                marginTop: 30,
+                backgroundColor: "violet",
+                color: "white",
+                border: "none",
+                fontSize: 15
+              }}
+            />
           </div>
         </div>
         <div
@@ -215,28 +219,26 @@ class NewExercise extends React.Component {
                 EDIT EXERCISES
               </button>
             </Link>
-            <Link to="/newworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                NEW WORKOUT
-              </button>
-            </Link>
-            <Link to="/editworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                EDIT WORKOUT
-              </button>
-            </Link>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              NEW WORKOUT
+            </button>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              EDIT WORKOUT
+            </button>
           </div>
           <div
             style={{

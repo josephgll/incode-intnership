@@ -25,17 +25,15 @@ class SignIn extends React.Component {
     for (let i = 0; i < this.props.savedEmailsPasswords.email.length; i++) {
       if (
         this.state.email === this.props.savedEmailsPasswords.email[i] &&
-        this.state.password === this.props.savedEmailsPasswords.password[i]
+        this.state.password === this.props.savedEmailsPasswords.password[i] &&
+        this.props.savedEmailsPasswords.isVerified[i] === true
       ) {
         loggedIn = true;
         this.props.getLogin(this.state.email);
         this.props.history.push("/dashboard");
 
         break;
-      } else if (
-        this.state.email !== this.props.savedEmailsPasswords.email[i] ||
-        this.state.password !== this.props.savedEmailsPasswords.password[i]
-      ) {
+      } else {
         loggedIn = false;
       }
     }

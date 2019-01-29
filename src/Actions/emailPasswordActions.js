@@ -4,3 +4,17 @@ export function signUp(emailPassword) {
     payload: emailPassword
   };
 }
+
+export function verify(code) {
+  return {
+    type: "VERIFY",
+    payload: code
+  };
+}
+
+export function removeUnverified(email) {
+  return {
+    type: "REMOVEUNVERIFIED",
+    payload: email
+  };
+}

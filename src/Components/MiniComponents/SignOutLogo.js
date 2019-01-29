@@ -11,6 +11,8 @@ import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { getLogout } from "../../Actions/logedInUserActions";
+import { withRouter } from "react-router";
+import compose from "recompose/compose";
 
 const styles = theme => ({
   root: {
@@ -40,6 +42,7 @@ class SignOutLogo extends React.Component {
 
   signOut() {
     this.props.signOut(false);
+    this.props.history.push("/");
   }
 
   render() {
@@ -103,7 +106,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(SignOutLogo));
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(withRouter(SignOutLogo));

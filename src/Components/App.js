@@ -13,6 +13,7 @@ import EditExercises from "./EditExercises";
 import EditWorkout from "./EditWorkout";
 import NewExercise from "./NewExercise";
 import NewWorkout from "./NewWorkout";
+import EmailVerification from "./EmailVerification";
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
               <Route exact path="/" component={SignIn} />
               <Route path="/signin" component={SignIn} />
               <Route path="/signup" component={SignUp} />
+              <Route path="/emailverification" component={EmailVerification} />
             </Grid>
           </Grid>
         ) : (
@@ -43,7 +45,9 @@ class App extends Component {
               <Route
                 path="/newworkout"
                 render={() =>
-                  !this.props.workouts.currentDate ? (
+                  !this.props.workouts.savedDates.includes(
+                    this.props.workouts.currentDate
+                  ) ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <NewWorkout />
@@ -54,7 +58,9 @@ class App extends Component {
               <Route
                 path="/editworkout"
                 render={() =>
-                  !this.props.workouts.currentDate ? (
+                  !this.props.workouts.savedDates.includes(
+                    this.props.workouts.currentDate
+                  ) ? (
                     <Redirect to="/newworkout" />
                   ) : (
                     <EditWorkout />

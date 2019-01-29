@@ -139,28 +139,26 @@ class EditExercises extends React.Component {
                 EDIT EXERCISES
               </button>
             </Link>
-            <Link to="/newworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                NEW WORKOUT
-              </button>
-            </Link>
-            <Link to="/editworkout" style={{ textDecoration: "none" }}>
-              <button
-                style={{
-                  backgroundColor: "lightgray",
-                  border: "none",
-                  fontSize: 15
-                }}
-              >
-                EDIT WORKOUT
-              </button>
-            </Link>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              NEW WORKOUT
+            </button>
+
+            <button
+              style={{
+                backgroundColor: "lightgray",
+                border: "none",
+                fontSize: 15
+              }}
+            >
+              EDIT WORKOUT
+            </button>
 
             <div />
           </div>
