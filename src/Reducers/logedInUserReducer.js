@@ -1,7 +1,7 @@
 const logedInUserReducer = (
   state = {
     logedInUser: "GlebCodingGod@gmail.com",
-    ifLogedIn: true
+    ifLogedIn: false
   },
   action
 ) => {

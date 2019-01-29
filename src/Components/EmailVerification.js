@@ -22,32 +22,22 @@ class EmailVerification extends React.Component {
   }
 
   handleVerification(e) {
-    let noemail = true;
-    let emailIndex = null;
-    for (let i = 0; i < this.props.savedEmailsPasswords.email.length; i++) {
-      if (this.state.email === this.props.savedEmailsPasswords.email[i]) {
-        emailIndex = this.props.savedEmailsPasswords.email.indexOf(
-          this.state.email
-        );
-        noemail = false;
-        if (
-          parseInt(this.state.vCode, 10) ===
-          this.props.savedEmailsPasswords.vCode[emailIndex]
-        ) {
-          window.alert("Your email is verified");
-          this.props.verify([emailIndex, true]);
-          this.props.history.push("/signin");
-        } else {
-          window.alert("Wrong verification code");
-        }
-        e.preventDefault();
-        break;
-      }
+    if (
+      parseInt(this.state.vCode, 10) ===
+      this.props.savedEmailsPasswords.vCode[
+        this.props.savedEmailsPasswords.email.length - 1
+      ]
+    ) {
+      window.alert("Your email is verified");
+      this.props.verify([
+        this.props.savedEmailsPasswords.email.length - 1,
+        true
+      ]);
+      this.props.history.push("/signin");
+    } else {
+      window.alert("Wrong verification code");
     }
-    if (noemail) {
-      e.preventDefault();
-      window.alert("No such email in database");
-    }
+    e.preventDefault();
   }
 
   render() {
@@ -96,10 +86,12 @@ class EmailVerification extends React.Component {
             >
               <Input
                 style={{ marginTop: 150, marginLeft: 25, width: 320 }}
-                placeholder="E-mail adress"
-                type="email"
                 onChange={this.handleEmailValue.bind(this)}
-                value={this.state.email}
+                value={
+                  this.props.savedEmailsPasswords.email[
+                    this.props.savedEmailsPasswords.email.length - 1
+                  ]
+                }
                 required
               />
               <Input
