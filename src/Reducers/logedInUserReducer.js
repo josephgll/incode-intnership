@@ -1,24 +1,27 @@
-const logedInUserReducer = (state = {
-  logedInUser: 'GlebCodingGod@gmail.com',
-  ifLogedIn: true
-},action) =>{
-  switch (action.type){
+const logedInUserReducer = (
+  state = {
+    logedInUser: "GlebCodingGod@gmail.com",
+    ifLogedIn: true
+  },
+  action
+) => {
+  switch (action.type) {
     case "LOGIN":
-    state = {
-      logedInUser: action.payload,
-      ifLogedIn: true
-    }
-    break;
+      state = {
+        logedInUser: action.payload,
+        ifLogedIn: true
+      };
+      break;
     case "LOGOUT":
-    state = {
-      ...state,
-      ifLogedIn: false
-    }
-    break;
+      state = {
+        ...state,
+        ifLogedIn: false
+      };
+      break;
     default:
-    break;
+      break;
   }
   return state;
-}
+};
 
 export default logedInUserReducer;

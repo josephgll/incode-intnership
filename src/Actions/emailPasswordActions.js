@@ -1,6 +1,6 @@
-export function signUp(emailPassword){
+export function signUp(emailPassword) {
   return {
     type: "SIGNUP",
     payload: emailPassword
-  }
+  };
 }
